@@ -1,7 +1,7 @@
 cors
 ====
 
-CORS Support For JAX-RS 2.0 / JavaEE 7
+[CORS](http://en.wikipedia.org/wiki/Cross-origin_resource_sharing) Support For JAX-RS 2.0 / JavaEE 7
 
 #Usage
 
