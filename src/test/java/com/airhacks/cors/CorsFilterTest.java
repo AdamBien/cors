@@ -19,56 +19,50 @@ package com.airhacks.cors;
  * limitations under the License.
  * #L%
  */
-
-import java.util.ArrayList;
-import java.util.List;
-import javax.ws.rs.container.ContainerRequestContext;
-import javax.ws.rs.container.ContainerResponseContext;
+import java.util.Enumeration;
+import java.util.Vector;
 import static org.hamcrest.CoreMatchers.is;
-import org.junit.After;
-import org.junit.AfterClass;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertThat;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 
 /**
  *
  * @author airhacks.com
  */
-public class CorsResponseFilterTest {
+public class CorsFilterTest {
 
-    CorsResponseFilter cut;
+    CORSFilter cut;
 
     @Before
     public void init() {
-        this.cut = new CorsResponseFilter();
+        this.cut = new CORSFilter();
     }
 
     @Test
     public void noHeaders() {
-        List<Object> headers = null;
-        String expected = CorsResponseFilter.DEFAULT_ALLOWED_HEADERS;
+        Enumeration<String> headers = null;
+        String expected = CORSFilter.DEFAULT_ALLOWED_HEADERS;
         String actual = cut.createHeaderList(headers);
         assertThat(actual, is(expected));
     }
 
     @Test
     public void multipleHeaders() {
-        List<Object> headers = new ArrayList<>();
+        Vector<String> headers = new Vector<>();
         headers.add("java");
         headers.add("duke");
         String expected = "java,duke";
-        String actual = cut.createHeaderList(headers);
+        String actual = cut.createHeaderList(headers.elements());
         assertThat(actual, is(expected));
     }
 
     @Test
     public void singleHeader() {
-        List<Object> headers = new ArrayList<>();
+        Vector<String> headers = new Vector<>();
         headers.add("java");
         String expected = "java";
-        String actual = cut.createHeaderList(headers);
+        String actual = cut.createHeaderList(headers.elements());
         assertThat(actual, is(expected));
     }
 
