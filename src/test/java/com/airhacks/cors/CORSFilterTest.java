@@ -30,7 +30,7 @@ import org.junit.Test;
  *
  * @author airhacks.com
  */
-public class CorsFilterTest {
+public class CORSFilterTest {
 
     CORSFilter cut;
 
