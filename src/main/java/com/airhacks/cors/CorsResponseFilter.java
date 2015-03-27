@@ -43,19 +43,19 @@ public class CorsResponseFilter implements ContainerResponseFilter {
     public void filter(ContainerRequestContext requestContext, ContainerResponseContext responseContext) throws IOException {
         final MultivaluedMap<String, Object> headers = responseContext.getHeaders();
         headers.add("Access-Control-Allow-Origin", "*");
-        headers.add("Access-Control-Allow-Headers", getRequestedHeaders(responseContext));
+        headers.add("Access-Control-Allow-Headers", getRequestedHeaders(requestContext));
         headers.add("Access-Control-Allow-Credentials", "true");
         headers.add("Access-Control-Allow-Methods", ALLOWED_METHODS);
         headers.add("Access-Control-Max-Age", MAX_AGE);
         headers.add("x-responded-by", "cors-response-filter");
     }
 
-    String getRequestedHeaders(ContainerResponseContext responseContext) {
-        List<Object> headers = responseContext.getHeaders().get("Access-Control-Request-Headers");
+    String getRequestedHeaders(ContainerRequestContext responseContext) {
+        List<String> headers = responseContext.getHeaders().get("Access-Control-Request-Headers");
         return createHeaderList(headers);
     }
 
-    String createHeaderList(List<Object> headers) {
+    String createHeaderList(List<String> headers) {
         if (headers == null || headers.isEmpty()) {
             return DEFAULT_ALLOWED_HEADERS;
         }
@@ -63,10 +63,9 @@ public class CorsResponseFilter implements ContainerResponseFilter {
         for (int i = 0; i < headers.size(); i++) {
             String header = (String) headers.get(i);
             retVal.append(header);
-            if (i != headers.size() - 1) {
-                retVal.append(',');
-            }
+            retVal.append(',');
         }
+        retVal.append(DEFAULT_ALLOWED_HEADERS);
         return retVal.toString();
     }
 
