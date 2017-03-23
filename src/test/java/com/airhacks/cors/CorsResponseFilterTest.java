@@ -19,12 +19,16 @@ package com.airhacks.cors;
  * limitations under the License.
  * #L%
  */
-import java.util.ArrayList;
-import java.util.List;
-import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.Test;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import static com.airhacks.cors.CorsResponseFilter.DEFAULT_ALLOWED_HEADERS;
+import static com.airhacks.cors.CorsResponseFilter.DEFAULT_EXPOSED_HEADERS;
+import static org.hamcrest.CoreMatchers.is;
+import static org.junit.Assert.assertThat;
 
 /**
  *
@@ -32,7 +36,7 @@ import org.junit.Test;
  */
 public class CorsResponseFilterTest {
 
-    CorsResponseFilter cut;
+    private CorsResponseFilter cut;
 
     @Before
     public void init() {
@@ -40,29 +44,56 @@ public class CorsResponseFilterTest {
     }
 
     @Test
-    public void noHeaders() {
+    public void noAllowedHeaders() {
         List<String> headers = null;
-        String expected = CorsResponseFilter.DEFAULT_ALLOWED_HEADERS;
-        String actual = cut.createHeaderList(headers);
+        String expected = DEFAULT_ALLOWED_HEADERS;
+        String actual = cut.createHeaderList(headers, DEFAULT_ALLOWED_HEADERS);
         assertThat(actual, is(expected));
     }
 
     @Test
-    public void multipleHeaders() {
+    public void multipleAllowedHeaders() {
         List<String> headers = new ArrayList<>();
         headers.add("java");
         headers.add("duke");
-        String expected = "java,duke," + CorsResponseFilter.DEFAULT_ALLOWED_HEADERS;
-        String actual = cut.createHeaderList(headers);
+        String expected = "java,duke," + DEFAULT_ALLOWED_HEADERS;
+        String actual = cut.createHeaderList(headers, DEFAULT_ALLOWED_HEADERS);
         assertThat(actual, is(expected));
     }
 
     @Test
-    public void singleHeader() {
+    public void singleAllowedHeader() {
         List<String> headers = new ArrayList<>();
         headers.add("java");
-        String expected = "java," + CorsResponseFilter.DEFAULT_ALLOWED_HEADERS;
-        String actual = cut.createHeaderList(headers);
+        String expected = "java," + DEFAULT_ALLOWED_HEADERS;
+        String actual = cut.createHeaderList(headers, DEFAULT_ALLOWED_HEADERS);
+        assertThat(actual, is(expected));
+    }
+
+    @Test
+    public void noExposedHeaders() {
+        List<String> headers = null;
+        String expected = DEFAULT_EXPOSED_HEADERS;
+        String actual = cut.createHeaderList(headers, DEFAULT_EXPOSED_HEADERS);
+        assertThat(actual, is(expected));
+    }
+
+    @Test
+    public void multipleExposedHeaders() {
+        List<String> headers = new ArrayList<>();
+        headers.add("java");
+        headers.add("duke");
+        String expected = "java,duke," + DEFAULT_EXPOSED_HEADERS;
+        String actual = cut.createHeaderList(headers, DEFAULT_EXPOSED_HEADERS);
+        assertThat(actual, is(expected));
+    }
+
+    @Test
+    public void singleExposedHeader() {
+        List<String> headers = new ArrayList<>();
+        headers.add("java");
+        String expected = "java," + DEFAULT_EXPOSED_HEADERS;
+        String actual = cut.createHeaderList(headers, DEFAULT_EXPOSED_HEADERS);
         assertThat(actual, is(expected));
     }
 
