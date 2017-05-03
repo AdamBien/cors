@@ -59,7 +59,7 @@ public class CorsResponseFilter implements ContainerResponseFilter {
 
     String getRequestedExposedHeaders(ContainerRequestContext responseContext) {
         List<String> headers = responseContext.getHeaders().get("Access-Control-Expose-Headers");
-        return createHeaderList(headers, DEFAULT_ALLOWED_HEADERS);
+        return createHeaderList(headers, DEFAULT_EXPOSED_HEADERS);
     }
 
     String createHeaderList(List<String> headers, String defaultHeaders) {
