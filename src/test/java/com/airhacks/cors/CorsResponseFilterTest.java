@@ -22,6 +22,8 @@ package com.airhacks.cors;
 import org.junit.Before;
 import org.junit.Test;
 
+import javax.ws.rs.container.ContainerRequestContext;
+import javax.ws.rs.core.MultivaluedHashMap;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,6 +31,8 @@ import static com.airhacks.cors.CorsResponseFilter.DEFAULT_ALLOWED_HEADERS;
 import static com.airhacks.cors.CorsResponseFilter.DEFAULT_EXPOSED_HEADERS;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 /**
  *
@@ -94,6 +98,24 @@ public class CorsResponseFilterTest {
         headers.add("java");
         String expected = "java," + DEFAULT_EXPOSED_HEADERS;
         String actual = cut.createHeaderList(headers, DEFAULT_EXPOSED_HEADERS);
+        assertThat(actual, is(expected));
+    }
+
+    @Test
+    public void defaultAllowedHeaders() {
+        ContainerRequestContext crc = mock(ContainerRequestContext.class);
+        when(crc.getHeaders()).thenReturn(new MultivaluedHashMap<String, String>());
+        String expected = DEFAULT_ALLOWED_HEADERS;
+        String actual = cut.getRequestedAllowedHeaders(crc);
+        assertThat(actual, is(expected));
+    }
+
+    @Test
+    public void defaultExposedHeaders() {
+        ContainerRequestContext crc = mock(ContainerRequestContext.class);
+        when(crc.getHeaders()).thenReturn(new MultivaluedHashMap<String, String>());
+        String expected = DEFAULT_EXPOSED_HEADERS;
+        String actual = cut.getRequestedExposedHeaders(crc);
         assertThat(actual, is(expected));
     }
 
