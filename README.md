@@ -3,10 +3,18 @@ cors
 
 [CORS](http://en.wikipedia.org/wiki/Cross-origin_resource_sharing) Support For JAX-RS 2.0 / JavaEE 7
 
-#Usage
+# Usage
 
 For CORS support activation add the following dependency to your Java EE 7 project. No further
 configuration is needed:
+
+## Gradle
+
+```gradle
+        compile 'com.airhacks:jaxrs-cors:0.0.2'
+```
+
+## Maven
 
 ```xml
         <dependency>
@@ -16,4 +24,3 @@ configuration is needed:
             <scope>compile</scope>
         </dependency>
 ```
-
