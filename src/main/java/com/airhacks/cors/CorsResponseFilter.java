@@ -68,7 +68,7 @@ public class CorsResponseFilter implements ContainerResponseFilter {
         }
         StringBuilder retVal = new StringBuilder();
         for (int i = 0; i < headers.size(); i++) {
-            String header = (String) headers.get(i);
+            String header = headers.get(i);
             retVal.append(header);
             retVal.append(',');
         }
